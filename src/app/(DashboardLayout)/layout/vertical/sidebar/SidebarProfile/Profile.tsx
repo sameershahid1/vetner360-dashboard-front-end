@@ -34,7 +34,7 @@ export const Profile = () => {
               <IconButton
                 color="primary"
                 component={Link}
-                href="/auth/auth1/login"
+                href="/login"
                 aria-label="logout"
                 size="small"
               >

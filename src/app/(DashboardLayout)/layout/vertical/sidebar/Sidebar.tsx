@@ -6,7 +6,7 @@ import SidebarItems from './SidebarItems';
 import Logo from '../../shared/logo/Logo';
 import { useSelector, useDispatch } from '@/store/hooks';
 import { hoverSidebar, toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
-import Scrollbar from '@/app/(DashboardLayout)/components/custom-scroll/Scrollbar';
+import Scrollbar from '@/components/custom-scroll/Scrollbar';
 import { Profile } from './SidebarProfile/Profile';
 import { AppState } from '@/store/store';
 

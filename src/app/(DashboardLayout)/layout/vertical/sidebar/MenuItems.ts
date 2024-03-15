@@ -15,54 +15,16 @@ interface MenuitemsType {
   external?: boolean;
 }
 import {
-  IconAward,
   IconBoxMultiple,
   IconPoint,
-  IconAlertCircle,
-  IconNotes,
-  IconCalendar,
-  IconMail,
-  IconTicket,
-  IconEdit,
-  IconGitMerge,
-  IconCurrencyDollar,
-  IconApps,
-  IconFileDescription,
-  IconFileDots,
-  IconFiles,
-  IconBan,
-  IconStar,
-  IconMoodSmile,
-  IconBorderAll,
-  IconBorderHorizontal,
-  IconBorderInner,
-  IconBorderVertical,
-  IconBorderTop,
-  IconUserCircle,
-  IconPackage,
-  IconMessage2,
-  IconBasket,
-  IconChartLine,
-  IconChartArcs,
-  IconChartCandle,
-  IconChartArea,
-  IconChartDots,
-  IconChartDonut3,
-  IconChartRadar,
-  IconLogin,
-  IconUserPlus,
-  IconRotate,
-  IconBox,
-  IconShoppingCart,
   IconAperture,
-  IconLayout,
-  IconSettings,
-  IconHelp,
-  IconZoomCode,
-  IconBoxAlignBottom,
-  IconBoxAlignLeft,
-  IconBorderStyle2,
-  IconAppWindow,
+  IconAmbulance,
+  IconTower,
+  IconCat,
+  IconEyeQuestion,
+  IconAddressBook,
+  IconRosette,
+  IconLicense,
 } from "@tabler/icons-react";
 
 const Menuitems: MenuitemsType[] = [
@@ -70,7 +32,6 @@ const Menuitems: MenuitemsType[] = [
     navlabel: true,
     subheader: "Home",
   },
-
   {
     id: uniqueId(),
     title: "Dashboard",
@@ -79,98 +40,107 @@ const Menuitems: MenuitemsType[] = [
     chip: "New",
     chipColor: "secondary",
   },
- 
-
   {
     navlabel: true,
     subheader: "Other",
   },
   {
     id: uniqueId(),
-    title: "Menu Level",
-    icon: IconBoxMultiple,
-    href: "/menulevel/",
+    title: "Doctors",
+    icon: IconAmbulance,
+    href: "/doctor",
     children: [
       {
         id: uniqueId(),
-        title: "Level 1",
+        title: "Doctor List",
         icon: IconPoint,
-        href: "/l1",
-      },
+        href: "/doctor",
+      }
+    ]
+  },
+  {
+    id: uniqueId(),
+    title: "Pets Owner",
+    icon: IconTower,
+    href: "/pets-owner",
+    children: [
+      {
+        title: "Pets Owner List",
+        icon: IconPoint,
+        id: uniqueId(),
+        href: "/pets-owner",
+      }
+    ]
+  },
+  {
+    id: uniqueId(),
+    title: "Pets",
+    icon: IconCat,
+    href: "/pets",
+    children: [
       {
         id: uniqueId(),
-        title: "Level 1.1",
+        title: "Pet List",
         icon: IconPoint,
-        href: "/l1.1",
-        children: [
-          {
-            id: uniqueId(),
-            title: "Level 2",
-            icon: IconPoint,
-            href: "/l2",
-          },
-          {
-            id: uniqueId(),
-            title: "Level 2.1",
-            icon: IconPoint,
-            href: "/l2.1",
-            children: [
-              {
-                id: uniqueId(),
-                title: "Level 3",
-                icon: IconPoint,
-                href: "/l3",
-              },
-              {
-                id: uniqueId(),
-                title: "Level 3.1",
-                icon: IconPoint,
-                href: "/l3.1",
-              },
-            ],
-          },
-        ],
-      },
-    ],
+        href: "/pets",
+      }
+    ]
   },
   {
     id: uniqueId(),
-    title: "Disabled",
-    icon: IconBan,
-    href: "",
-    disabled: true,
+    title: "Guests",
+    icon: IconEyeQuestion,
+    href: "/guests",
+    children: [
+      {
+        title: "Guest List",
+        id: uniqueId(),
+        icon: IconPoint,
+        href: "/guests",
+      }
+    ]
   },
   {
     id: uniqueId(),
-    title: "SubCaption",
-    subtitle: "This is the sutitle",
-    icon: IconStar,
-    href: "",
-  },
-
-  {
-    id: uniqueId(),
-    title: "Chip",
-    icon: IconAward,
-    href: "",
-    chip: "9",
-    chipColor: "primary",
+    title: "Contacts Message",
+    icon: IconAddressBook,
+    href: "/contacts-message",
+    children: [
+      {
+        id: uniqueId(),
+        title: "Contact Message List",
+        icon: IconPoint,
+        href: "/contacts-message",
+      }
+    ]
   },
   {
     id: uniqueId(),
-    title: "Outlined",
-    icon: IconMoodSmile,
-    href: "",
-    chip: "outline",
-    variant: "outlined",
-    chipColor: "primary",
+    title: "Role",
+    icon: IconRosette,
+    href: "/role",
+    children: [
+      {
+        id: uniqueId(),
+        title: "Role List",
+        icon: IconPoint,
+        href: "/role",
+      }
+    ]
   },
   {
     id: uniqueId(),
-    title: "External Link",
-    external: true,
-    icon: IconStar,
-    href: "https://google.com",
+    title: "Permission",
+    icon: IconLicense,
+    href: "/permission",
+    children: [
+      {
+        id: uniqueId(),
+        title: "Permission",
+        icon: IconPoint,
+        href: "/permission",
+      }
+    ]
   },
 ];
 
