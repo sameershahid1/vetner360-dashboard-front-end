@@ -2,13 +2,23 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import CustomizerReducer from "./customizer/CustomizerSlice";
 import RoleReducer from "./slice/role";
-import PermissionReducer from "./slice/doctor";
+import DoctorReducer from "./slice/doctor";
+import GuestReducer from "./slice/guest";
+import PermissionReducer from "./slice/permission";
+import PetReducer from "./slice/pet";
+import PetOwnerReducer from "./slice/pet-owner";
+
+
 
 export const store = configureStore({
   reducer: {
     customizer: CustomizerReducer,
     roleReducer: RoleReducer,
-    permissionReducer: PermissionReducer
+    permissionReducer: PermissionReducer,
+    guestReducer: GuestReducer,
+    doctorReducer: DoctorReducer,
+    petReducer: PetReducer,
+    petOwnerReducer: PetOwnerReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
 });
@@ -16,7 +26,11 @@ export const store = configureStore({
 const rootReducer = combineReducers({
   customizer: CustomizerReducer,
   roleReducer: RoleReducer,
-  permissionReducer: PermissionReducer
+  permissionReducer: PermissionReducer,
+  guestReducer: GuestReducer,
+  doctorReducer: DoctorReducer,
+  petReducer: PetReducer,
+  petOwnerReducer: PetOwnerReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
