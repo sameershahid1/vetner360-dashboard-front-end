@@ -24,28 +24,6 @@ const AppDD = () => {
   return (
     <>
       <Box>
-        <Button
-          aria-label="show 11 new notifications"
-          color="inherit"
-          variant="text"
-          aria-controls="msgs-menu"
-          aria-haspopup="true"
-          sx={{
-            bgcolor: anchorEl2 ? "primary.light" : "",
-            color: anchorEl2
-              ? "primary.main"
-              : (theme) => theme.palette.text.secondary,
-          }}
-          onClick={handleClick2}
-          endIcon={
-            <IconChevronDown
-              size="15"
-              style={{ marginLeft: "-5px", marginTop: "2px" }}
-            />
-          }
-        >
-          Apps
-        </Button>
         {/* ------------------------------------------- */}
         {/* Message Dropdown */}
         {/* ------------------------------------------- */}
@@ -111,33 +89,6 @@ const AppDD = () => {
           </Grid>
         </Menu>
       </Box>
-      <Button
-        color="inherit"
-        sx={{ color: (theme) => theme.palette.text.secondary }}
-        variant="text"
-        href="/apps/chats"
-        component={Link}
-      >
-        Chat
-      </Button>
-      <Button
-        color="inherit"
-        sx={{ color: (theme) => theme.palette.text.secondary }}
-        variant="text"
-        href="/apps/calendar"
-        component={Link}
-      >
-        Calendar
-      </Button>
-      <Button
-        color="inherit"
-        sx={{ color: (theme) => theme.palette.text.secondary }}
-        variant="text"
-        href="/apps/email"
-        component={Link}
-      >
-        Email
-      </Button>
     </>
   );
 };

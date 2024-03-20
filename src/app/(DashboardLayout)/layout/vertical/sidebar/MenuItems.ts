@@ -49,98 +49,42 @@ const Menuitems: MenuitemsType[] = [
     title: "Doctors",
     icon: IconAmbulance,
     href: "/doctor",
-    children: [
-      {
-        id: uniqueId(),
-        title: "Doctor List",
-        icon: IconPoint,
-        href: "/doctor",
-      }
-    ]
   },
   {
     id: uniqueId(),
     title: "Pets Owner",
     icon: IconTower,
     href: "/pets-owner",
-    children: [
-      {
-        title: "Pets Owner List",
-        icon: IconPoint,
-        id: uniqueId(),
-        href: "/pets-owner",
-      }
-    ]
   },
   {
     id: uniqueId(),
     title: "Pets",
     icon: IconCat,
     href: "/pets",
-    children: [
-      {
-        id: uniqueId(),
-        title: "Pet List",
-        icon: IconPoint,
-        href: "/pets",
-      }
-    ]
   },
   {
     id: uniqueId(),
     title: "Guests",
     icon: IconEyeQuestion,
     href: "/guests",
-    children: [
-      {
-        title: "Guest List",
-        id: uniqueId(),
-        icon: IconPoint,
-        href: "/guests",
-      }
-    ]
   },
   {
     id: uniqueId(),
     title: "Contacts Message",
     icon: IconAddressBook,
     href: "/contacts-message",
-    children: [
-      {
-        id: uniqueId(),
-        title: "Contact Message List",
-        icon: IconPoint,
-        href: "/contacts-message",
-      }
-    ]
   },
   {
     id: uniqueId(),
     title: "Role",
     icon: IconRosette,
     href: "/role",
-    children: [
-      {
-        id: uniqueId(),
-        title: "Role List",
-        icon: IconPoint,
-        href: "/role",
-      }
-    ]
   },
   {
     id: uniqueId(),
     title: "Permission",
     icon: IconLicense,
     href: "/permission",
-    children: [
-      {
-        id: uniqueId(),
-        title: "Permission",
-        icon: IconPoint,
-        href: "/permission",
-      }
-    ]
   },
 ];
 

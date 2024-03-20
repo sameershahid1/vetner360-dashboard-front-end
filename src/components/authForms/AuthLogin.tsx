@@ -6,7 +6,7 @@ import FormGroup from '@mui/material/FormGroup';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Link from "next/link";
-import { loginType } from "@/app/(DashboardLayout)/types/auth/auth";
+import { loginType } from "@/utils/types/auth/auth";
 import CustomCheckbox from "@/components/forms/theme-elements/CustomCheckbox";
 import CustomTextField from "@/components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "@/components/forms/theme-elements/CustomFormLabel";
