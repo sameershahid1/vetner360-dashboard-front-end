@@ -7,7 +7,7 @@ import GuestReducer from "./slice/guest";
 import PermissionReducer from "./slice/permission";
 import PetReducer from "./slice/pet";
 import PetOwnerReducer from "./slice/pet-owner";
-
+import ContactMessageReducer from "./slice/contact-message";
 
 
 export const store = configureStore({
@@ -19,6 +19,7 @@ export const store = configureStore({
     doctorReducer: DoctorReducer,
     petReducer: PetReducer,
     petOwnerReducer: PetOwnerReducer,
+    contactMessageReducer: ContactMessageReducer
   },
   devTools: process.env.NODE_ENV !== "production",
 });
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   doctorReducer: DoctorReducer,
   petReducer: PetReducer,
   petOwnerReducer: PetOwnerReducer,
+  contactMessageReducer: ContactMessageReducer
 });
 
 export type RootState = ReturnType<typeof store.getState>;

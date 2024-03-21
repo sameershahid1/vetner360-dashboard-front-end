@@ -38,7 +38,10 @@ export type RoleType = {
 export type PetOwnerType = {
     _id?: string;
     id?: string;
-
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
     status?: boolean;
     updatedAt?: string;
     createdAt?: string;
@@ -46,10 +49,25 @@ export type PetOwnerType = {
 }
 
 
+export type ActivityType = {
+    _id?: string;
+    id?: string;
+    name: string;
+    description: string;
+    startTime: string;
+    endTime: string;
+    updatedAt?: string;
+    createdAt?: string;
+    __v?: number;
+}
+
 export type PetType = {
     _id?: string;
     id?: string;
-
+    name: string;
+    type: string;
+    breed: string;
+    activity?: string[],
     status?: boolean;
     updatedAt?: string;
     createdAt?: string;
@@ -59,7 +77,15 @@ export type PetType = {
 export type DoctorType = {
     _id?: string;
     id?: string;
-
+    firstName: string;
+    lastName: string;
+    email: string;
+    fatherName: string;
+    registrationNo: string;
+    gender: string;
+    latitude: number;
+    longitude: number;
+    password: string;
     status?: boolean;
     updatedAt?: string;
     createdAt?: string;
@@ -69,10 +95,26 @@ export type DoctorType = {
 export type GuestType = {
     _id?: string;
     id?: string;
-
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
     status?: boolean;
     updatedAt?: string;
     createdAt?: string;
     __v?: number;
 }
+
+export type ContactMessageType = {
+    _id?: string;
+    id?: string;
+    name: string;
+    email: string;
+    message: string;
+    status?: boolean;
+    updatedAt?: string;
+    createdAt?: string;
+    __v?: number;
+}
+
 

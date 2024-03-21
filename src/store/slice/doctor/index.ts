@@ -4,12 +4,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface StateType {
     editDoctor: boolean;
-    doctor: DoctorType[];
+    doctors: DoctorType[];
     doctorPagination: PaginationType;
 }
 
 const initialState = {
-    doctor: [],
+    doctors: [],
     doctorPagination: {
         page: 0,
         totalSize: 0,
@@ -19,28 +19,28 @@ const initialState = {
 }
 
 export const DoctorSlice = createSlice({
-    name: "Doctor",
+    name: "doctor",
     initialState,
     reducers: {
         GetDoctorList: (state: StateType, action) => {
-            state.doctor = action.payload.list
+            state.doctors = action.payload.list
             state.doctorPagination = action.payload.newPagination
         },
         DeleteDoctor: (state: StateType, action) => {
-            state.doctor = state.doctor.filter((fle) => fle._id !== action.payload)
+            state.doctors = state.doctors.filter((doctor) => doctor._id !== action.payload)
         },
         isEdit: (state: StateType) => {
             state.editDoctor = !state.editDoctor
         },
         UpdateDoctor: (state: StateType, action: PayloadAction<any>) => {
-            state.doctor = state.doctor.map((fle) =>
-                fle._id === action.payload.id
+            state.doctors = state.doctors.map((doctor) =>
+                doctor._id === action.payload.id
                     ? { ...action.payload }
-                    : fle,
+                    : doctor,
             );
         },
         addDoctor: (state: StateType, action: PayloadAction<any>) => {
-            state.doctor.push(action.payload)
+            state.doctors.push(action.payload)
         },
     }
 })
