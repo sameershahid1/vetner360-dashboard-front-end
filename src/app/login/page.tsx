@@ -5,9 +5,9 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import PageContainer from '@/components/container/PageContainer';
-import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
 import AuthLogin from '../../components/authForms/AuthLogin';
 import Image from 'next/image';
+import Logo from '@/layout/shared/logo/Logo';
 
 export default function Login () {
   return(

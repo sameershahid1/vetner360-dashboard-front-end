@@ -3,10 +3,10 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
 import AuthForgotPassword from '../../components/authForms/AuthForgotPassword';
 import PageContainer from '@/components/container/PageContainer';
 import Image from 'next/image';
+import Logo from '@/layout/shared/logo/Logo';
 
 export default function ForgotPassword() {
   return (
