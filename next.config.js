@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "http",
         hostname: "localhost:8080",
       },
+      {
+        protocol: "http",
+        hostname: "vetner360.koyeb.app",
+      },
     ],
   },
   modularizeImports: {
