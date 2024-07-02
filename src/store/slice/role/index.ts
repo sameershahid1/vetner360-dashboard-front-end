@@ -6,12 +6,12 @@ import { PaginationType, RoleType } from "@/utils/types/table";
 interface StateType {
     editRole: boolean;
     role: RoleType[];
-    rolePagination: PaginationType;
+    pagination: PaginationType;
 }
 
 const initialState = {
     role: [],
-    rolePagination: {
+    pagination: {
         page: 0,
         totalSize: 0,
         rowsPerPage: 10,
@@ -25,17 +25,17 @@ export const RoleSlice = createSlice({
     reducers: {
         GetRoleList: (state: StateType, action) => {
             state.role = action.payload.list
-            state.rolePagination = action.payload.newPagination
+            state.pagination = action.payload.newPagination
         },
         DeleteRole: (state: StateType, action) => {
-            state.role = state.role.filter((fle) => fle._id !== action.payload)
+            state.role = state.role.filter((fle) => fle.token !== action.payload)
         },
         isEdit: (state: StateType) => {
             state.editRole = !state.editRole
         },
         UpdateRole: (state: StateType, action: PayloadAction<any>) => {
             state.role = state.role.map((fle) =>
-                fle._id === action.payload.id
+                fle.token === action.payload.id
                     ? { ...action.payload }
                     : fle,
             );

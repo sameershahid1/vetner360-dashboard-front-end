@@ -14,6 +14,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import VehicleAutoButton from "../vehicle-auto-button";
+import { ModelFieldType } from "@/utils/types/modal";
 import ModalTable from "../modal-table";
 
 type Props = {

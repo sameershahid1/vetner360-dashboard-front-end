@@ -5,12 +5,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 interface StateType {
     editContactMessage: boolean;
     contactMessages: ContactMessageType[];
-    contactMessagePagination: PaginationType;
+    pagination: PaginationType;
 }
 
 const initialState = {
     contactMessages: [],
-    contactMessagePagination: {
+    pagination: {
         page: 0,
         totalSize: 0,
         rowsPerPage: 10,
@@ -24,17 +24,17 @@ export const ContactMessageSlice = createSlice({
     reducers: {
         GetContactMessageList: (state: StateType, action) => {
             state.contactMessages = action.payload.list
-            state.contactMessagePagination = action.payload.newPagination
+            state.pagination = action.payload.newPagination
         },
         DeleteContactMessage: (state: StateType, action) => {
-            state.contactMessages = state.contactMessages.filter((contactMessage) => contactMessage._id !== action.payload)
+            state.contactMessages = state.contactMessages.filter((contactMessage) => contactMessage.token !== action.payload)
         },
         isEdit: (state: StateType) => {
             state.editContactMessage = !state.editContactMessage
         },
         UpdateContactMessage: (state: StateType, action: PayloadAction<any>) => {
             state.contactMessages = state.contactMessages.map((contactMessage) =>
-                contactMessage._id === action.payload.id
+                contactMessage.token === action.payload.id
                     ? { ...action.payload }
                     : contactMessage,
             );

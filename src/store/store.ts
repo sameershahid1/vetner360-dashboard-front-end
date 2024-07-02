@@ -3,11 +3,11 @@ import { combineReducers } from "redux";
 import CustomizerReducer from "./customizer/CustomizerSlice";
 import RoleReducer from "./slice/role";
 import DoctorReducer from "./slice/doctor";
-import GuestReducer from "./slice/guest";
+import GuestReducer from "./slice/user";
 import PermissionReducer from "./slice/permission";
 import PetReducer from "./slice/pet";
-import PetOwnerReducer from "./slice/pet-owner";
 import ContactMessageReducer from "./slice/contact-message";
+import UserReducer from "./slice/user";
 
 
 export const store = configureStore({
@@ -18,7 +18,7 @@ export const store = configureStore({
     guestReducer: GuestReducer,
     doctorReducer: DoctorReducer,
     petReducer: PetReducer,
-    petOwnerReducer: PetOwnerReducer,
+    userReducer: UserReducer,
     contactMessageReducer: ContactMessageReducer
   },
   devTools: process.env.NODE_ENV !== "production",
@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
   guestReducer: GuestReducer,
   doctorReducer: DoctorReducer,
   petReducer: PetReducer,
-  petOwnerReducer: PetOwnerReducer,
+  userReducer: UserReducer,
   contactMessageReducer: ContactMessageReducer
 });
 

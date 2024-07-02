@@ -42,31 +42,19 @@ const Menuitems: MenuitemsType[] = [
   },
   {
     navlabel: true,
-    subheader: "Other",
+    subheader: "Modules",
+  },
+  {
+    id: uniqueId(),
+    title: "Users",
+    icon: IconTower,
+    href: "/user",
   },
   {
     id: uniqueId(),
     title: "Doctors",
     icon: IconAmbulance,
     href: "/doctor",
-  },
-  {
-    id: uniqueId(),
-    title: "Pets Owner",
-    icon: IconTower,
-    href: "/pets-owner",
-  },
-  {
-    id: uniqueId(),
-    title: "Pets",
-    icon: IconCat,
-    href: "/pets",
-  },
-  {
-    id: uniqueId(),
-    title: "Guests",
-    icon: IconEyeQuestion,
-    href: "/guests",
   },
   {
     id: uniqueId(),
@@ -80,12 +68,12 @@ const Menuitems: MenuitemsType[] = [
     icon: IconRosette,
     href: "/role",
   },
-  {
-    id: uniqueId(),
-    title: "Permission",
-    icon: IconLicense,
-    href: "/permission",
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: "Permission",
+  //   icon: IconLicense,
+  //   href: "/permission",
+  // },
 ];
 
 export default Menuitems;

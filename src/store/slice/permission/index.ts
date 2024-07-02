@@ -27,14 +27,14 @@ export const PermissionSlice = createSlice({
             state.permissionPagination = action.payload.newPagination
         },
         DeletePermission: (state: StateType, action) => {
-            state.permission = state.permission.filter((fle) => fle._id !== action.payload)
+            state.permission = state.permission.filter((fle) => fle.id !== action.payload)
         },
         isEdit: (state: StateType) => {
             state.editPermission = !state.editPermission
         },
         UpdatePermission: (state: StateType, action: PayloadAction<any>) => {
             state.permission = state.permission.map((fle) =>
-                fle._id === action.payload.id
+                fle.id === action.payload.id
                     ? { ...action.payload }
                     : fle,
             );

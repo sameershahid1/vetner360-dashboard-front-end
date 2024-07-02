@@ -15,13 +15,13 @@ const Logo = () => {
 
   if (customizer.activeDir === "ltr") {
     return (
-      <LinkStyled href="/">
+      <LinkStyled href="/" style={{ display: "flex", justifyContent: "center", marginTop:"1rem" }}>
         {customizer.activeMode === "dark" ? (
           <Image
             src="/images/logos/logo.png"
             alt="logo"
             height={customizer.TopbarHeight}
-            width={174}
+            width={100}
             priority
           />
         ) : (
@@ -29,7 +29,7 @@ const Logo = () => {
             src={"/images/logos/logo.png"}
             alt="logo"
             height={customizer.TopbarHeight}
-            width={174}
+            width={100}
             priority
           />
         )}

@@ -1,3 +1,5 @@
+"use client"
+
 import { NextPage } from "next/types";
 import {
     Typography,
@@ -9,14 +11,19 @@ import {
     TableRow,
     Tooltip,
     IconButton,
-    Fab,
     Grid,
     TablePagination,
+    Button,
 } from "@mui/material";
-import { IconPencil, IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconPencil, IconTrash } from "@tabler/icons-react";
 import DashboardCard from "../shared/DashboardCard";
+import ModalAddButton from "../modal-add-button";
 import { CellType, PaginationType } from "@/utils/types/table";
-
+import { FieldType } from "@/utils/types/modal";
+import { useState } from "react";
+import AlertDialog from "../alert-dialog";
+import GenerateModalField from "../generate-modal-field";
+import './style.css';
 
 type Props = {
     title: string;
@@ -24,106 +31,166 @@ type Props = {
     columns: CellType[];
     cells: CellType[];
     pagination: PaginationType;
-    handleRenderCell: (rowData: any, name: string, index: number) => string;
-    handleCreate: () => void;
-    handleDelete: (id: string) => void;
-    handleEdit: (id: string) => void;
+    removeAddButton?: boolean;
+    removeEditButton?: boolean;
+    removeDeleteButton?: boolean;
+    filterFieldList?: FieldType[];
+    handleRenderCell: ((rowData: any, name: string, index: number) => string | undefined);
+    handleCreate?: (() => void | undefined);
+    handleDelete?: ((id: string) => Promise<void> | undefined);
+    handleEdit?: ((id: string) => void | undefined);
+    handleFilter?: any;
     handleChangePage: (evt: any, value: number) => void;
     handleChangeRowsPerPage: (evt: any) => void;
+    handleFilterFieldOnChange?: (permission: any, newValue: string, fieldAlias: string, setValues: any) => void;
 };
 
-const CustomTable: NextPage<Props> = ({
+const ReusableTable: NextPage<Props> = ({
     rows,
     columns,
     title,
     cells,
     pagination,
+    removeAddButton,
+    removeEditButton,
+    removeDeleteButton,
+    filterFieldList,
     handleChangeRowsPerPage,
     handleChangePage,
     handleCreate,
     handleDelete,
     handleEdit,
     handleRenderCell,
+    handleFilter,
+    handleFilterFieldOnChange
 }) => {
-    const addButton = (
-        <Tooltip title="Add" onClick={handleCreate}>
-            <Fab color="secondary">
-                <IconPlus width={20} height={20} />
-            </Fab>
-        </Tooltip>
-    );
+    const [open, setOpen] = useState({ isModal: false, id: "" });
+    const AddButton = !removeAddButton ? <ModalAddButton handleCreate={handleCreate} /> : <></>
+    const [values, setValues] = useState({});
+
+    const handleClickOpen = (id: string) => {
+        setOpen({ isModal: true, id: id });
+    };
+
+    const handleClose = () => {
+        setOpen({ isModal: false, id: "" });
+    };
+
+    const handleConformMessage = () => {
+        if (handleDelete) {
+            setOpen({ isModal: false, id: "" })
+            handleDelete(open.id)
+        }
+    }
+
+    const handleShowMessage = () => { }
+
 
     return (
-        <DashboardCard title={title} action={addButton}>
-            <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
-                <Table
-                    aria-label="simple table"
-                    sx={{
-                        whiteSpace: "nowrap",
-                        mt: 2,
-                    }}
-                >
-                    <TableHead>
-                        <TableRow>
-                            {columns?.map((column: CellType) => {
+        <DashboardCard title={title} action={AddButton}>
+            <Box>
+                {
+                    <AlertDialog handleAccept={handleConformMessage} handleClose={handleClose} open={open.isModal} />
+                }
+                {
+                    filterFieldList && handleFilterFieldOnChange && handleFilter && (
+                        <form onSubmit={handleFilter}>
+                            <Box className="rt-form-container">
+                                <Grid container className="rt-field-container">
+                                    {
+                                        filterFieldList?.map((filter: any) => {
+                                            return (
+                                                <Grid key={filter.id} item xs={filter.columnSmall} md={filter.columnMedium} lg={filter.columnLarge} className="rt-field">
+                                                    <GenerateModalField
+                                                        values={values}
+                                                        setValues={setValues}
+                                                        handleModalFieldOnChange={handleFilterFieldOnChange}
+                                                        field={filter}
+                                                    />
+                                                </Grid>
+                                            )
+                                        })
+                                    }
+                                </Grid>
+                                <Box className="rt-btn-filter-container">
+                                    <Button variant="contained" type="submit" fullWidth>Filter</Button>
+                                </Box>
+                            </Box>
+                        </form>)
+                }
+                <Box sx={{ overflow: "auto" }}>
+                    <Table
+                        aria-label="simple table"
+                        sx={{
+                            whiteSpace: "nowrap",
+                            mt: 2,
+                        }}
+                    >
+                        <TableHead>
+                            <TableRow>
+                                {columns?.map((column: CellType) => {
+                                    return (
+                                        <TableCell key={column?.id}>
+                                            <Typography
+                                                textAlign={"center"}
+                                                fontWeight={600}
+                                                sx={{ color: "#2A3547" }}
+                                            >
+                                                {column?.name}
+                                            </Typography>
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows?.map((row: any, index: number) => {
                                 return (
-                                    <TableCell key={column?.id}>
-                                        <Typography
-                                            textAlign={"center"}
-                                            fontWeight={600}
-                                            sx={{ color: "#2A3547" }}
-                                        >
-                                            {column?.name}
-                                        </Typography>
-                                    </TableCell>
+                                    <TableRow key={row?.token}>
+                                        {cells?.map((cell: CellType) => {
+                                            const name = cell?.name;
+                                            return (
+                                                <TableCell key={cell.id}>
+                                                    <Typography
+                                                        textAlign={"center"}
+                                                        sx={{
+                                                            fontSize: "15px",
+                                                            fontWeight: "500",
+                                                            color: "#2A3547"
+                                                        }}
+                                                    >
+                                                        {handleRenderCell(row, name, index)}
+                                                    </Typography>
+                                                </TableCell>
+                                            );
+                                        })}
+                                        <TableCell sx={{ display: "flex", justifyContent: "center" }}>
+                                            {
+                                                !removeDeleteButton &&
+                                                <Tooltip
+                                                    title="Delete"
+                                                    onClick={handleShowMessage}
+                                                >
+                                                    <IconButton onClick={() => handleClickOpen(row.token)} color="error">
+                                                        <IconTrash width={26} height={26} />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            }
+                                            {
+                                                !removeEditButton &&
+                                                <Tooltip title={"Edit"}>
+                                                    <IconButton onClick={() => handleEdit && handleEdit(row?.token)}>
+                                                        <IconPencil size="25" stroke={2} />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            }
+                                        </TableCell>
+                                    </TableRow>
                                 );
                             })}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows?.map((row: any, index: number) => {
-                            return (
-                                <TableRow key={row?._id}>
-                                    {cells?.map((cell: CellType) => {
-                                        const name = cell?.name;
-                                        return (
-                                            <TableCell key={cell.id}>
-                                                <Typography
-                                                    textAlign={"center"}
-                                                    sx={{
-                                                        fontSize: "15px",
-                                                        fontWeight: "500",
-                                                        color: "#2A3547"
-                                                    }}
-                                                >
-                                                    {handleRenderCell(row, name, index)}
-                                                </Typography>
-                                            </TableCell>
-                                        );
-                                    })}
-
-                                    <TableCell sx={{ display: "flex", justifyContent: "center" }}>
-                                        <Tooltip
-                                            title="Delete"
-                                            onClick={() => {
-                                                handleDelete(row._id);
-                                            }}
-                                        >
-                                            <IconButton color="error">
-                                                <IconTrash width={26} height={26} />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title={"Edit"}>
-                                            <IconButton onClick={() => handleEdit(row?._id)}>
-                                                <IconPencil size="25" stroke={2} />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
+                        </TableBody>
+                    </Table>
+                </Box>
                 <Grid item lg={12} sm={12} mt={3}>
                     <TablePagination
                         rowsPerPageOptions={[10]}
@@ -136,8 +203,10 @@ const CustomTable: NextPage<Props> = ({
                     />
                 </Grid>
             </Box>
-        </DashboardCard>
+        </DashboardCard >
     );
 };
 
-export default CustomTable;
+export default ReusableTable;
+
+

@@ -1,0 +1,36 @@
+.rt-form-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rt-field-container {
+  display: flex;
+  align-items: center;
+  flex-flow: wrap;
+  gap: 1rem;
+}
+
+.rt-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.rt-btn-filter-container {
+  width: 10rem;
+}
+
+@media screen and (max-width: 528px) {
+  .rt-field-container {
+    justify-content: center;
+  }
+  .rt-form-container {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}

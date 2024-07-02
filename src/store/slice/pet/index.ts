@@ -28,14 +28,14 @@ export const PetSlice = createSlice({
             state.petPagination = action.payload.newPagination
         },
         DeletePet: (state: StateType, action) => {
-            state.pets = state.pets.filter((pet) => pet._id !== action.payload)
+            state.pets = state.pets.filter((pet) => pet.id !== action.payload)
         },
         isEdit: (state: StateType) => {
             state.editPet = !state.editPet
         },
         UpdatePet: (state: StateType, action: PayloadAction<any>) => {
             state.pets = state.pets.map((pet) =>
-                pet._id === action.payload.id
+                pet.id === action.payload.id
                     ? { ...action.payload }
                     : pet,
             );

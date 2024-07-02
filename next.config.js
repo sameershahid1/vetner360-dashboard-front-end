@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost:8080",
+      },
+    ],
+  },
   modularizeImports: {
     "@mui/icons-material": {
       transform: "@mui/icons-material/{{member}}",
@@ -9,7 +17,6 @@ const nextConfig = {
     //   transform: '@mui/material/{{member}}',
     // },
   },
-  
 };
 
 module.exports = nextConfig;

@@ -1,18 +1,22 @@
-import { PaginationDataType, PostRoleType, } from "@/utils/types/request";
+import { PaginationDataType, PostDoctorType } from "@/utils/types/request";
 
-export const getRole = async (pagination: PaginationDataType) => {
+export const getDoctor = async (pagination: PaginationDataType) => {
     try {
         const token = localStorage.getItem("token")
         const headers = {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/role/list", {
+        const raw = await fetch("http://vetner360.koyeb.app/web/api/doctor/list", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(pagination)
         })
 
+        if (!raw.ok) {
+            throw new Error('Failed to fetch data')
+        }
+
         const response = await raw.json()
         return response
     } catch (error) {
@@ -21,19 +25,22 @@ export const getRole = async (pagination: PaginationDataType) => {
 }
 
 
-export const postRole = async (newRole: PostRoleType) => {
+export const postDoctor = async (newDoctor: PostDoctorType) => {
     try {
         const token = localStorage.getItem("token")
         const headers = {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/role/", {
+        const raw = await fetch("http://vetner360.koyeb.app/web/api/doctor/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(newRole)
+            body: JSON.stringify(newDoctor)
         })
 
+        if (!raw.ok) {
+            throw new Error('Failed to post data')
+        }
 
         const response = await raw.json()
         return response
@@ -43,18 +50,22 @@ export const postRole = async (newRole: PostRoleType) => {
 }
 
 
-export const patchRole = async (updatedRole: PostRoleType, id: string) => {
+export const patchDoctor = async (updatedDoctor: PostDoctorType, id: string) => {
     try {
         const token = localStorage.getItem("token")
         const headers = {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/role/${id}`, {
+        const raw = await fetch(`http://vetner360.koyeb.app/web/api/doctor/${id}`, {
             method: "PATCH",
             headers: headers,
-            body: JSON.stringify(updatedRole)
+            body: JSON.stringify(updatedDoctor)
         })
+
+        if (!raw.ok) {
+            throw new Error('Failed to patch data')
+        }
 
         const response = await raw.json()
         return response
@@ -63,17 +74,21 @@ export const patchRole = async (updatedRole: PostRoleType, id: string) => {
     }
 }
 
-export const deleteRole = async (id: string) => {
+export const deleteDoctor = async (id: string) => {
     try {
         const token = localStorage.getItem("token")
         const headers = {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/role/${id}`, {
+        const raw = await fetch(`http://vetner360.koyeb.app/web/api/doctor/${id}`, {
             method: "DELETE",
             headers: headers
         })
+
+        if (!raw.ok) {
+            throw new Error('Failed to delete data')
+        }
 
         const response = await raw.json()
         return response

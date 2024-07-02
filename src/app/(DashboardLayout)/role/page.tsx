@@ -1,49 +1,50 @@
 "use client";
 import { useEffect, useState } from "react";
 import PageContainer from "@/components/container/PageContainer";
-import { deleteRole, getRole, patchRole, postRole } from "@/utils/request/role";
 import { modalRoleTitle, modalRoleFields } from "@/utils/data/modal";
-import { PaginationType, PermissionType, RoleType } from "@/utils/types/table";
 import { roleCells, roleColumns } from "@/utils/data/table";
-import CustomTable from "@/components/custom-table";
+import ReusableTable from "@/components/custom-table";
 import Box from "@mui/material/Box";
 import Modal from "@/components/modal";
 import { useSelector } from "@/store/hooks";
 import { useDispatch } from "react-redux";
-import { addRole, DeleteRole, GetRoleList, UpdateRole } from "@/store/slice/role";
-import { DeletePermission, GetPermissionList } from "@/store/slice/permission";
-import { getPermission } from "@/utils/request/permission/request";
 import { ModalMod } from "@/utils/enum/modal";
-
-const columnsPermission = [
-  { id: 1, name: "Id" },
-  { id: 2, name: "Name" },
-  { id: 3, name: "Description" },
-  { id: 4, name: "Action" },
-];
+import { ResponseType } from "@/utils/types/request";
+import { deleteRole, getRole, patchRole, postRole } from "@/utils/request/role";
+import { addRole, DeleteRole, GetRoleList, UpdateRole } from "@/store/slice/role";
+import { PaginationType, RoleType } from "@/utils/types/table";
 
 
 export default function Role() {
   const [isModal, setIsModal] = useState<boolean>(false);
   const roles: RoleType[] = useSelector((state) => state.roleReducer.role)
-  const permission: PermissionType[] = useSelector((state) => state.permissionReducer.permission)
-  const permissionPagination: PaginationType = useSelector((state) => state.permissionReducer.permissionPagination)
-  const pagination: PaginationType = useSelector((state) => state.roleReducer.rolePagination)
+  console.log(roles)
+  const pagination: PaginationType = useSelector((state) => state.roleReducer.pagination)
   const dispatch = useDispatch()
   const [editRole, setEditRole] = useState<RoleType>({
     name: "",
     description: "",
-    permissions: [],
     status: false,
   });
 
   useEffect(() => {
     const fetchRole = async () => {
       try {
-        // const { roleList, newPagination } = await getRole(pagination);
-        // if (roleList) {
-        //   dispatch(GetRoleList({ list: roleList, newPagination }))
-        // }
+        const newPagination = {
+          page: 1,
+          limit: 10,
+        }
+        const response: ResponseType = await getRole(newPagination);
+        if (response.records) {
+          dispatch(GetRoleList({
+            list: response.records,
+            newPagination: {
+              page: newPagination.page,
+              totalSize: response.count,
+              rowsPerPage: newPagination.limit
+            }
+          }))
+        }
       } catch (error) {
         console.log(error);
       }
@@ -51,19 +52,6 @@ export default function Role() {
     fetchRole();
   }, []);
 
-  useEffect(() => {
-    const fetchPermission = async () => {
-      try {
-        // const { permissionList, newPagination } = await getPermission(permissionPagination);
-        // if (permissionList) {
-        //   dispatch(GetPermissionList({ list: permissionList, newPagination }))
-        // }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchPermission();
-  }, []);
 
   const handleToggle = () => {
     setIsModal(!isModal);
@@ -71,7 +59,6 @@ export default function Role() {
       setEditRole({
         name: "",
         description: "",
-        permissions: [],
         status: false,
       });
     }
@@ -79,24 +66,24 @@ export default function Role() {
 
   const handleDelete = async (id: string) => {
     try {
-      // const { role } = await deleteRole(id);
-      // if (role) {
-      //   dispatch(DeleteRole(id))
-      // }
+      const response = await deleteRole(id);
+      console.log(response.message)
+      if (response.status) {
+        dispatch(DeleteRole(id))
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleEdit = (id: string) => {
-    const role = roles.find((role) => role._id === id);
+    const role = roles.find((role) => role.token === id);
     if (role) {
       setIsModal(true);
       setEditRole({
-        id: role?._id,
+        id: id,
         name: role.name,
         description: role.description,
-        permissions: [...role.permissions],
         status: true,
       });
     }
@@ -104,11 +91,15 @@ export default function Role() {
 
   const handleAdd = async (values: any) => {
     try {
-      // const { role } = await postRole(values);
-      // if (role) {
-      //   dispatch(addRole(values))
-      //   setIsModal(false);
-      // }
+      const newRole = {
+        name: values.name,
+        description: values.description
+      }
+      const response = await postRole(newRole);
+      if (response.status) {
+        dispatch(addRole(values))
+        setIsModal(false);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -116,36 +107,27 @@ export default function Role() {
 
   const handleUpdate = async (values: any) => {
     try {
-      // const { role } = await patchRole(values);
-      // if (role) {
-      //   dispatch(UpdateRole(values))
-      //   setIsModal(false);
-      //   setEditRole({
-      //     name: "",
-      //     description: "",
-      //     permissions: [],
-      //     status: false,
-      //   });
-      // }
+      const updateRole = {
+        name: values.name,
+        description: values.description
+      }
+      const response = await patchRole(updateRole, values.id);
+      console.log(values)
+      if (response.status) {
+        dispatch(UpdateRole(values))
+        setEditRole({
+          id: "",
+          name: "",
+          description: "",
+          status: false,
+        });
+        setIsModal(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handlePermission = (value: string, values: any, setValues: any) => {
-    let updatedPermission: string[] = [];
-    const permissionId: string = value ?? "";
-    const status: boolean = values?.permissions?.includes(
-      permissionId as never,
-    );
-    updatedPermission = status
-      ? values?.permissions.filter((perm: any) => permissionId !== perm)
-      : [...values.permissions, permissionId];
-    setValues((state: any) => ({
-      ...state,
-      permissions: [...updatedPermission],
-    }));
-  };
 
   const handleModalFieldOnChange = (
     permission: any,
@@ -165,17 +147,29 @@ export default function Role() {
       return index + 1;
     }
 
-    if (name === "total-permission") {
-      return rowData["permissions"].length;
-    }
 
     return rowData[name as never];
   };
 
   const handleChangePage = async (evt: any, value: number) => {
     try {
-      // const { roleList, newPagination } = await getRole({ ...pagination, page: value });
-      // dispatch(GetRoleList({ roleList, newPagination }))
+      if (value > 0) {
+        const newPagination = {
+          page: value,
+          limit: 10,
+        }
+        const response: ResponseType = await getRole(newPagination);
+        if (response.records) {
+          dispatch(GetRoleList({
+            list: response.records,
+            newPagination: {
+              page: newPagination.page,
+              totalSize: response.count,
+              rowsPerPage: newPagination.limit
+            }
+          }))
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -191,28 +185,10 @@ export default function Role() {
   };
 
 
-  const handlePermissionPaginationChangePage = async (evt: any, value: number) => {
-    try {
-      // const { permissionList, newPagination } = await getPermission({ ...pagination, page: value });
-      // dispatch(GetPermissionList({ list: permissionList, newPagination }))
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const handlePermissionPaginationChangeRowsPerPage = async (evt: any) => {
-    try {
-      // const { permissionList, newPagination } = await getPermission({ ...pagination, rowsPerPage: parseInt(evt.target.value) });
-      // dispatch(GetPermissionList({ list: permissionList, newPagination }))
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
-    <PageContainer title="Uploads" description="this is Uploads">
+    <PageContainer title="Role" description="This is roles.">
       <Box mt={3}>
-        <CustomTable
+        <ReusableTable
           handleCreate={handleToggle}
           handleDelete={handleDelete}
           handleEdit={handleEdit}
@@ -226,18 +202,12 @@ export default function Role() {
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
 
-        {isModal && permission && (
+        {isModal && (
           <Modal
             handleModalFieldOnChange={handleModalFieldOnChange}
             handleSubmit={editRole.status ? handleUpdate : handleAdd}
-            handlePermission={handlePermission}
             handleToggle={handleToggle}
-            handleChangePage={handlePermissionPaginationChangePage}
-            handleChangeRowsPerPage={handlePermissionPaginationChangeRowsPerPage}
-            permissionPagination={permissionPagination}
-            columnsPermission={columnsPermission}
             modalFields={modalRoleFields}
-            tableData={permission}
             editData={editRole}
             isModal={isModal}
             title={

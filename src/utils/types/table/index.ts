@@ -10,111 +10,90 @@ export type PaginationType = {
 }
 
 export type PermissionType = {
-    _id?: string;
     id?: string;
     name: string;
     path: string;
     description: string;
     status?: boolean;
-    updatedAt?: string;
-    createdAt?: string;
+    created_at?: string;
     companyId?: string;
-    __v?: number;
 }
 
 export type RoleType = {
-    _id?: string;
     id?: string;
     name: string;
     description: string;
-    permissions: PermissionType[];
+    token?: string,
+    created_at?: string;
     status?: boolean;
-    updatedAt?: string;
-    createdAt?: string;
-    __v?: number;
 }
 
 
-export type PetOwnerType = {
-    _id?: string;
+export type UserType = {
     id?: string;
     firstName: string;
     lastName: string;
     email: string;
     password: string;
+    phoneNo: string;
+    token?: string,
     status?: boolean;
-    updatedAt?: string;
-    createdAt?: string;
-    __v?: number;
+    created_at?: string;
 }
 
 
 export type ActivityType = {
-    _id?: string;
     id?: string;
     name: string;
-    description: string;
+    note: string;
     startTime: string;
     endTime: string;
-    updatedAt?: string;
-    createdAt?: string;
-    __v?: number;
+    token?: string,
+    status?: string;
+    created_at?: string;
 }
 
 export type PetType = {
-    _id?: string;
     id?: string;
     name: string;
     type: string;
     breed: string;
     activity?: string[],
+    token?: string,
+    created_at?: string;
     status?: boolean;
-    updatedAt?: string;
-    createdAt?: string;
-    __v?: number;
 }
 
 export type DoctorType = {
-    _id?: string;
     id?: string;
     firstName: string;
     lastName: string;
+    phoneNo: string,
     email: string;
     fatherName: string;
-    registrationNo: string;
-    gender: string;
-    latitude: number;
-    longitude: number;
+    registration: string;
+    clinicName: string,
+    location: {
+        type: string,
+        coordinates: Number[],
+    },
+    experience: string,
+    bio: string,
     password: string;
+    accountStatus: string;
+    token?: string,
+    roleId?: string,
+    created_at?: string;
     status?: boolean;
-    updatedAt?: string;
-    createdAt?: string;
-    __v?: number;
-}
-
-export type GuestType = {
-    _id?: string;
-    id?: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    status?: boolean;
-    updatedAt?: string;
-    createdAt?: string;
-    __v?: number;
 }
 
 export type ContactMessageType = {
-    _id?: string;
     id?: string;
-    name: string;
     email: string;
     message: string;
+    token?: string,
+    created_at?: string;
     status?: boolean;
-    updatedAt?: string;
-    createdAt?: string;
-    __v?: number;
 }
 
 

@@ -8,6 +8,7 @@ export interface loginType {
   title?: string;
   subtitle?: JSX.Element | JSX.Element[];
   subtext?: JSX.Element | JSX.Element[];
+  handleSubmit: (evt: any) => Promise<void>;
 }
 
 export interface signInType {

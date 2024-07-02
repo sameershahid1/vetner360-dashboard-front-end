@@ -20,7 +20,6 @@ export const roleColumns: CellType[] = [
     { id: 1, name: "Id" },
     { id: 2, name: "Name" },
     { id: 3, name: "Description" },
-    { id: 4, name: "Total Permission" },
     { id: 5, name: "Action" },
 ];
 
@@ -28,7 +27,6 @@ export const roleCells: CellType[] = [
     { id: 1, name: "id" },
     { id: 2, name: "name" },
     { id: 3, name: "description" },
-    { id: 4, name: "total-permission" },
 ];
 
 
@@ -36,17 +34,21 @@ export const doctorColumns: CellType[] = [
     { id: 1, name: "Id" },
     { id: 2, name: "Name" },
     { id: 3, name: "Email" },
-    { id: 4, name: "Registration-NO" },
-    { id: 5, name: "Gender" },
-    { id: 6, name: "Action" },
+    { id: 5, name: "Experience" },
+    { id: 4, name: "Registration-No" },
+    { id: 5, name: "Clinic Name" },
+    { id: 6, name: "Phone-No" },
+    { id: 7, name: "Action" },
 ];
 
 export const doctorCells: CellType[] = [
     { id: 1, name: "id" },
     { id: 2, name: "name" },
     { id: 3, name: "email" },
-    { id: 4, name: "registrationNo" },
-    { id: 5, name: "gender" },
+    { id: 5, name: "experience" },
+    { id: 4, name: "registration" },
+    { id: 5, name: "clinicName" },
+    { id: 6, name: "phoneNo" },
 ];
 
 
@@ -64,17 +66,19 @@ export const guestCells: CellType[] = [
 ];
 
 
-export const petOwnerColumns: CellType[] = [
+export const userColumns: CellType[] = [
     { id: 1, name: "Id" },
     { id: 2, name: "Name" },
     { id: 3, name: "Email" },
-    { id: 6, name: "Action" },
+    { id: 4, name: "PhoneNo" },
+    { id: 5, name: "Action" },
 ];
 
-export const petOwnerCells: CellType[] = [
+export const userCells: CellType[] = [
     { id: 1, name: "id" },
     { id: 2, name: "name" },
     { id: 3, name: "email" },
+    { id: 4, name: "phoneNo" },
 ];
 
 
@@ -98,7 +102,6 @@ export const petsCells: CellType[] = [
 
 export const contactMessageColumns: CellType[] = [
     { id: 1, name: "Id" },
-    { id: 2, name: "Name" },
     { id: 2, name: "Email" },
     { id: 3, name: "Message" },
     { id: 6, name: "Action" },
@@ -106,7 +109,6 @@ export const contactMessageColumns: CellType[] = [
 
 export const contactMessageCells: CellType[] = [
     { id: 1, name: "id" },
-    { id: 2, name: "name" },
     { id: 2, name: "email" },
     { id: 3, name: "message" },
 ];

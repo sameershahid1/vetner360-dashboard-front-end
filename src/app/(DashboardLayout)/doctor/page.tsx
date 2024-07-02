@@ -1,43 +1,58 @@
 "use client";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-
-import Modal from "@/components/modal";
 import { useDispatch, useSelector } from "@/store/hooks";
 import { addDoctor, DeleteDoctor, GetDoctorList, UpdateDoctor } from "@/store/slice/doctor";
-import { modalDoctorFields, modalDoctorTitle } from "@/utils/data/modal";
 import { DoctorType, PaginationType } from "@/utils/types/table";
 import { doctorCells, doctorColumns } from "@/utils/data/table";
+import { deleteDoctor, getDoctor } from "@/utils/request/doctor";
 import PageContainer from "@/components/container/PageContainer";
-import CustomTable from "@/components/custom-table";
-import { ModalMod } from "@/utils/enum/modal";
+import ReusableTable from "@/components/custom-table";
+import { ResponseType } from "@/utils/types/request";
 
 
 export default function Doctor() {
   const [isModal, setIsModal] = useState<boolean>(false);
-  const pagination: PaginationType = useSelector((state) => state.doctorReducer.doctorPagination)
+  const pagination: PaginationType = useSelector((state) => state.doctorReducer.pagination)
   const doctors: DoctorType[] = useSelector((state) => state.doctorReducer.doctors)
   const dispatch = useDispatch()
   const [editDoctor, setEditDoctor] = useState<DoctorType>({
     firstName: "",
     lastName: "",
+    phoneNo: "",
     email: "",
     fatherName: "",
-    registrationNo: "",
-    gender: "male",
-    latitude: 0,
-    longitude: 0,
+    registration: "",
+    clinicName: "",
+    location: {
+      type: "",
+      coordinates: [],
+    },
+    experience: "",
+    bio: "",
     password: "",
+    accountStatus: "",
     status: false,
   });
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        // const { DoctorList, newPagination } = await getDoctor(pagination);
-        // if (DoctorList) {
-        //   dispatch(GetDoctorList({ list: DoctorList, newPagination }))
-        // }
+          const newPagination = {
+            page: 1,
+            limit: 10,
+          }
+          const response: ResponseType = await getDoctor(newPagination);
+          if (response.records) {
+            dispatch(GetDoctorList({
+              list: response.records,
+              newPagination: {
+                page: newPagination.page,
+                totalSize: response.count,
+                rowsPerPage: newPagination.limit
+              }
+            }))
+          }
       } catch (error) {
         console.log(error);
       }
@@ -52,75 +67,57 @@ export default function Doctor() {
       setEditDoctor({
         firstName: "",
         lastName: "",
+        phoneNo: "",
         email: "",
         fatherName: "",
-        registrationNo: "",
-        gender: "male",
-        latitude: 0,
-        longitude: 0,
+        registration: "",
+        clinicName: "",
+        location: {
+          type: "",
+          coordinates: [],
+        },
+        experience: "",
+        bio: "",
         password: "",
+        accountStatus: "",
+        token: "",
+        roleId: "",
         status: false,
       });
     }
   };
 
-  const handleAdd = async (values: any) => {
-    try {
-      // const { Doctor } = await postDoctor(values);
-      // if (Doctor) {
-      dispatch(addDoctor(values))
-      // }
-      setIsModal(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleUpdate = async (values: any) => {
-    try {
-      setIsModal(false);
-      // const { Doctor } = await patchDoctor(values);
-      // if (Doctor) {
-      dispatch(UpdateDoctor(values))
-      //   setEditDoctor({
-      //     name: "",
-      //     path: "",
-      //     description: "",
-      //     status: false,
-      //   });
-      // }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleDelete = async (id: string) => {
     try {
-      // const { Doctor } = await deleteDoctor(id);
-      // if (Doctor) {
-      dispatch(DeleteDoctor(id))
-      // }
+      const response = await deleteDoctor(id);
+      if (response?.status) {
+        dispatch(DeleteDoctor(id))
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleEdit = (id: string) => {
-    const doctor: (DoctorType | undefined) = doctors?.find((perm: any) => perm._id === id);
+    const doctor: (DoctorType | undefined) = doctors?.find((perm: any) => perm.token === id);
 
     if (doctor) {
       setIsModal(true);
       setEditDoctor({
-        id: doctor._id,
-        firstName: doctor?.firstName,
-        email: doctor?.email,
-        lastName: doctor?.lastName,
-        fatherName: doctor?.fatherName,
-        registrationNo: doctor?.registrationNo,
-        gender: doctor?.gender,
-        latitude: doctor?.latitude,
-        longitude: doctor?.longitude,
-        password: "",
+        firstName: doctor.firstName,
+        lastName: doctor.lastName,
+        phoneNo: doctor.phoneNo,
+        email: doctor.email,
+        fatherName: doctor.fatherName,
+        registration: doctor.registration,
+        clinicName: doctor.clinicName,
+        location: doctor.location,
+        experience: doctor.experience,
+        bio: doctor.bio,
+        password: doctor.password,
+        accountStatus: doctor.accountStatus,
+        token: doctor.token,
+        roleId: doctor.roleId,
         status: true,
       });
     }
@@ -138,22 +135,26 @@ export default function Doctor() {
     return rowData[name as never];
   };
 
-  const handleModalFieldOnChange = (
-    Doctor: any,
-    newValue: string,
-    fieldAlias: string,
-    setValues: any,
-  ) => {
-    setValues({
-      ...Doctor,
-      [fieldAlias]: newValue,
-    });
-  };
 
   const handleChangePage = async (evt: any, value: number) => {
     try {
-      // const { performanceList, newPagination } = await getDoctor({ ...pagination, page: value });
-      // dispatch(GetDoctorList({ performanceList, newPagination }))
+      if (value > 0) {
+        const newPagination = {
+          page: value,
+          limit: 10,
+        }
+        const response: ResponseType = await getDoctor(newPagination);
+        if (response.records) {
+          dispatch(GetDoctorList({
+            list: response.records,
+            newPagination: {
+              page: newPagination.page,
+              totalSize: response.count,
+              rowsPerPage: newPagination.limit
+            }
+          }))
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -161,8 +162,6 @@ export default function Doctor() {
 
   const handleChangeRowsPerPage = async (evt: any) => {
     try {
-      // const { performanceList, newPagination } = await getDoctor({ ...pagination, rowsPerPage: parseInt(evt.target.value) });
-      // dispatch(GetDoctorList({ performanceList, newPagination }))
     } catch (error) {
       console.log(error);
     }
@@ -171,35 +170,21 @@ export default function Doctor() {
   return (
     <PageContainer title="Doctor" description="This is Doctor">
       <Box mt={3}>
-        <CustomTable
+        <ReusableTable
           title={"Doctors"}
           rows={doctors}
           columns={doctorColumns}
           cells={doctorCells}
           pagination={pagination}
+          removeAddButton={true}
+          removeEditButton={true}
+          handleEdit={handleEdit}
           handleCreate={handleToggle}
           handleDelete={handleDelete}
-          handleEdit={handleEdit}
           handleRenderCell={renderCell}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         />
-
-        {isModal && (
-          <Modal
-            handleSubmit={editDoctor.status ? handleUpdate : handleAdd}
-            handleToggle={handleToggle}
-            handleModalFieldOnChange={handleModalFieldOnChange}
-            editData={editDoctor}
-            modalFields={modalDoctorFields}
-            isModal={isModal}
-            title={
-              editDoctor.status
-                ? modalDoctorTitle[ModalMod.EDIT]
-                : modalDoctorTitle[ModalMod.NEW]
-            }
-          />
-        )}
       </Box>
     </PageContainer>
   );

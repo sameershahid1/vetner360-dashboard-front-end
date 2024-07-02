@@ -3,38 +3,41 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@/components/modal";
 import { useDispatch, useSelector } from "@/store/hooks";
-import { modalContactMessageFields, modalContactMessageTitle } from "@/utils/data/modal";
-import { contactMessageCells, contactMessageColumns } from "@/utils/data/table";
-import { ContactMessageType, PaginationType } from "@/utils/types/table";
-import { deleteContactMessageRequest, getContactMessageRequest, patchContactMessageRequest, postContactMessageRequest } from "@/utils/request/contact-message";
-import { addContactMessage, DeleteContactMessage, GetContactMessageList, UpdateContactMessage } from "@/store/slice/contact-message";
+import { modalUserFields, modalUserTitle } from "@/utils/data/modal";
+import { UserType, PaginationType } from "@/utils/types/table";
+import { userCells, userColumns } from "@/utils/data/table";
 import PageContainer from "@/components/container/PageContainer";
+import ReusableTable from "@/components/custom-table";
+import { addUser, DeleteUser, GetUserList, UpdateUser } from "@/store/slice/user";
+import { deleteUser, getUser, patchUser, postUser } from "@/utils/request/user";
 import { ResponseType } from "@/utils/types/request";
-import CustomTable from "@/components/custom-table";
 import { ModalMod } from "@/utils/enum/modal";
 
 
-export default function ContactMessage() {
-  const dispatch = useDispatch()
+export default function User() {
   const [isModal, setIsModal] = useState<boolean>(false);
-  const pagination: PaginationType = useSelector((state) => state.contactMessageReducer.pagination)
-  const contactMessages: ContactMessageType[] = useSelector((state) => state.contactMessageReducer.contactMessages)
-  const [editContactMessage, setEditContactMessage] = useState<ContactMessageType>({
+  const pagination: PaginationType = useSelector((state) => state.userReducer.pagination)
+  const users: UserType[] = useSelector((state) => state.userReducer.users)
+  const dispatch = useDispatch()
+  const [editUser, setEditUser] = useState<UserType>({
+    firstName: "",
+    lastName: "",
     email: "",
-    message: "",
+    phoneNo: "",
+    password: "",
     status: false,
   });
 
   useEffect(() => {
-    const fetchContactMessages = async () => {
+    const fetchUsers = async () => {
       try {
         const newPagination = {
           page: 1,
           limit: 10,
         }
-        const response: ResponseType = await getContactMessageRequest(newPagination);
+        const response: ResponseType = await getUser(newPagination, "petOwner");
         if (response.records) {
-          dispatch(GetContactMessageList({
+          dispatch(GetUserList({
             list: response.records,
             newPagination: {
               page: newPagination.page,
@@ -47,16 +50,19 @@ export default function ContactMessage() {
         console.log(error);
       }
     };
-    fetchContactMessages();
+    fetchUsers();
   }, []);
 
   const handleToggle = () => {
     setIsModal(!isModal);
 
-    if (editContactMessage.status) {
-      setEditContactMessage({
+    if (editUser.status) {
+      setEditUser({
+        firstName: "",
+        lastName: "",
         email: "",
-        message: "",
+        phoneNo: "",
+        password: "",
         status: false,
       });
     }
@@ -64,14 +70,19 @@ export default function ContactMessage() {
 
   const handleAdd = async (values: any) => {
     try {
-      const newRecord = {
+      const newUser = {
+        firstName: values.firstName,
+        lastName: values.lastName,
         email: values.email,
-        message: values.message,
+        phoneNo: values.phoneNo,
+        password: values.password,
+        userType: 1,
       }
-      const response = await postContactMessageRequest(newRecord);
-      if (response.status) {
-        dispatch(addContactMessage(values))
+      const response = await postUser(newUser);
+      if (response?.status) {
+        dispatch(addUser(newUser))
       }
+      console.log(response.message)
       setIsModal(false);
     } catch (error) {
       console.log(error);
@@ -81,18 +92,25 @@ export default function ContactMessage() {
   const handleUpdate = async (values: any) => {
     try {
       setIsModal(false);
-      const updateRecord = {
+      const updateUser = {
+        firstName: values.firstName,
+        lastName: values.lastName,
         email: values.email,
-        message: values.message,
+        phoneNo: values.phoneNo,
+        password: values.password,
+        userType: 1,
       }
-      const response = await patchContactMessageRequest(updateRecord, values.id);
-      if (response.status) {
-        dispatch(UpdateContactMessage(values))
-        setEditContactMessage({
+      const response = await patchUser(updateUser, values.id);
+      if (response?.status) {
+        setEditUser({
+          firstName: "",
+          lastName: "",
           email: "",
-          message: "",
+          phoneNo: "",
+          password: "",
           status: false,
         });
+        dispatch(UpdateUser(values))
       }
     } catch (error) {
       console.log(error);
@@ -101,9 +119,9 @@ export default function ContactMessage() {
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await deleteContactMessageRequest(id);
-      if (response.status) {
-        dispatch(DeleteContactMessage(id))
+      const response = await deleteUser(id);
+      if (response?.status) {
+        dispatch(DeleteUser(id))
       }
     } catch (error) {
       console.log(error);
@@ -111,14 +129,17 @@ export default function ContactMessage() {
   };
 
   const handleEdit = (id: string) => {
-    const contactMessage: (ContactMessageType | undefined) = contactMessages?.find((perm: any) => perm.token === id);
+    const user: (UserType | undefined) = users?.find((perm: any) => perm.token === id);
 
-    if (contactMessage) {
+    if (user) {
       setIsModal(true);
-      setEditContactMessage({
-        id: contactMessage.token,
-        email: contactMessage.email,
-        message: contactMessage.message,
+      setEditUser({
+        id: id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phoneNo: user.phoneNo,
+        password: "",
         status: true,
       });
     }
@@ -129,17 +150,21 @@ export default function ContactMessage() {
       return index + 1;
     }
 
+    if (name == "name") {
+      return `${rowData?.firstName} ${rowData?.lastName}`
+    }
+
     return rowData[name as never];
   };
 
   const handleModalFieldOnChange = (
-    ContactMessage: any,
+    user: any,
     newValue: string,
     fieldAlias: string,
     setValues: any,
   ) => {
     setValues({
-      ...ContactMessage,
+      ...user,
       [fieldAlias]: newValue,
     });
   };
@@ -151,9 +176,9 @@ export default function ContactMessage() {
           page: value,
           limit: 10,
         }
-        const response: ResponseType = await getContactMessageRequest(newPagination);
+        const response: ResponseType = await getUser(newPagination, "petOwner");
         if (response.records) {
-          dispatch(GetContactMessageList({
+          dispatch(GetUserList({
             list: response.records,
             newPagination: {
               page: newPagination.page,
@@ -170,21 +195,19 @@ export default function ContactMessage() {
 
   const handleChangeRowsPerPage = async (evt: any) => {
     try {
-      // const { performanceList, newPagination } = await getContactMessage({ ...pagination, rowsPerPage: parseInt(evt.target.value) });
-      // dispatch(GetContactMessageList({ performanceList, newPagination }))
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <PageContainer title="ContactMessage" description="This is ContactMessage ">
+    <PageContainer title="Users" description="This is users">
       <Box mt={3}>
-        <CustomTable
-          title={"ContactMessage"}
-          rows={contactMessages}
-          columns={contactMessageColumns}
-          cells={contactMessageCells}
+        <ReusableTable
+          title={"Users"}
+          rows={users}
+          columns={userColumns}
+          cells={userCells}
           pagination={pagination}
           handleCreate={handleToggle}
           handleDelete={handleDelete}
@@ -196,16 +219,16 @@ export default function ContactMessage() {
 
         {isModal && (
           <Modal
-            handleSubmit={editContactMessage.status ? handleUpdate : handleAdd}
+            handleSubmit={editUser.status ? handleUpdate : handleAdd}
             handleToggle={handleToggle}
             handleModalFieldOnChange={handleModalFieldOnChange}
-            editData={editContactMessage}
-            modalFields={modalContactMessageFields}
+            editData={editUser}
+            modalFields={modalUserFields}
             isModal={isModal}
             title={
-              editContactMessage.status
-                ? modalContactMessageTitle[ModalMod.EDIT]
-                : modalContactMessageTitle[ModalMod.NEW]
+              editUser.status
+                ? modalUserTitle[ModalMod.EDIT]
+                : modalUserTitle[ModalMod.NEW]
             }
           />
         )}
