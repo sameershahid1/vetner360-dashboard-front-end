@@ -7,7 +7,7 @@ export const getDoctor = async (pagination: PaginationDataType) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/doctor/list", {
+        const raw = await fetch("https://vetner360.koyeb.app/web/api/doctor/list", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(pagination)
@@ -32,7 +32,7 @@ export const postDoctor = async (newDoctor: PostDoctorType) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/doctor/", {
+        const raw = await fetch("https://vetner360.koyeb.app/web/api/doctor/", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(newDoctor)
@@ -57,7 +57,7 @@ export const patchDoctor = async (updatedDoctor: PostDoctorType, id: string) => 
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/doctor/${id}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/doctor/${id}`, {
             method: "PATCH",
             headers: headers,
             body: JSON.stringify(updatedDoctor)
@@ -81,7 +81,7 @@ export const deleteDoctor = async (id: string) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/doctor/${id}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/doctor/${id}`, {
             method: "DELETE",
             headers: headers
         })

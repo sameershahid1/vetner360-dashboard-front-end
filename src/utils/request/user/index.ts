@@ -7,7 +7,7 @@ export const getUser = async (pagination: PaginationDataType, userType: string) 
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/user/list?userType=${userType}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/user/list?userType=${userType}`, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(pagination)
@@ -28,7 +28,7 @@ export const postUser = async (newUser: PostUserType) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/user/", {
+        const raw = await fetch("https://vetner360.koyeb.app/web/api/user/", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(newUser)
@@ -49,7 +49,7 @@ export const patchUser = async (updatedUser: PostUserType, id: string) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/user/${id}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/user/${id}`, {
             method: "PATCH",
             headers: headers,
             body: JSON.stringify(updatedUser)
@@ -69,7 +69,7 @@ export const deleteUser = async (id: string) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/user/${id}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/user/${id}`, {
             method: "DELETE",
             headers: headers
         })

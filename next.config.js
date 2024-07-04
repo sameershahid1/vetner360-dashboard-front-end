@@ -7,7 +7,7 @@ const nextConfig = {
         hostname: "localhost:8080",
       },
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "vetner360.koyeb.app",
       },
     ],

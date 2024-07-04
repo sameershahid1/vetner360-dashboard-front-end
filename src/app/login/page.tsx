@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Login() {
+  const router = useRouter()
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -20,7 +21,6 @@ export default function Login() {
     }
   }, [])
 
-  const router = useRouter()
   const handleSubmit = async (evt: any) => {
     evt.preventDefault()
     const cred: LoginType = {

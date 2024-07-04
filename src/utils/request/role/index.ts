@@ -7,7 +7,7 @@ export const getRole = async (pagination: PaginationDataType) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/role/list", {
+        const raw = await fetch("https://vetner360.koyeb.app/web/api/role/list", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(pagination)
@@ -28,7 +28,7 @@ export const postRole = async (newRole: PostRoleType) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/role/", {
+        const raw = await fetch("https://vetner360.koyeb.app/web/api/role/", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(newRole)
@@ -50,7 +50,7 @@ export const patchRole = async (updatedRole: PostRoleType, id: string) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/role/${id}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/role/${id}`, {
             method: "PATCH",
             headers: headers,
             body: JSON.stringify(updatedRole)
@@ -70,7 +70,7 @@ export const deleteRole = async (id: string) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/role/${id}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/role/${id}`, {
             method: "DELETE",
             headers: headers
         })

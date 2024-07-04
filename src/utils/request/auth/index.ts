@@ -6,7 +6,7 @@ export const loginRequest = async (credential: LoginType) => {
         const headers = {
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/login", {
+        const raw = await fetch("https://vetner360.koyeb.app/web/api/login", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(credential)

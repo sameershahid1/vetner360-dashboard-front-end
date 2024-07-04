@@ -8,7 +8,7 @@ export const getContactMessageRequest = async (pagination: PaginationDataType) =
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/contact-message/list", {
+        const raw = await fetch("https://vetner360.koyeb.app/web/api/contact-message/list", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(pagination)
@@ -29,7 +29,7 @@ export const postContactMessageRequest = async (newContactMessage: PostContactMe
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch("http://vetner360.koyeb.app/web/api/contact-message/", {
+        const raw = await fetch("https://vetner360.koyeb.app/web/api/contact-message/", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(newContactMessage)
@@ -50,7 +50,7 @@ export const patchContactMessageRequest = async (updatedContactMessage: PostCont
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/contact-message/${id}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/contact-message/${id}`, {
             method: "PATCH",
             headers: headers,
             body: JSON.stringify(updatedContactMessage)
@@ -70,7 +70,7 @@ export const deleteContactMessageRequest = async (id: string) => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         };
-        const raw = await fetch(`http://vetner360.koyeb.app/web/api/contact-message/${id}`, {
+        const raw = await fetch(`https://vetner360.koyeb.app/web/api/contact-message/${id}`, {
             method: "DELETE",
             headers: headers
         })
